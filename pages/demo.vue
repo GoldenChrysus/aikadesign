@@ -1,8 +1,14 @@
+<style>
+body {
+    margin: 0;
+}
+</style>
+
 <script setup>
-import Demo from '~/components/Demo.vue';
+import Gallery from '~/components/Gallery.vue';
 </script>
 
 <template>
-    <h1>Demo</h1>
-    <Demo />
+    <h1>Gallery</h1>
+    <Gallery />
 </template>
