@@ -23,8 +23,6 @@
 }
 
 .wrapper > div > .item {
-    /* width: 700px; */
-    /* min-width: 700px; */
     z-index: 2;
     transition: opacity 0.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
 }
@@ -208,7 +206,7 @@ const onLeave = (x: HTMLElement) => {
                 const new_left = (positions.left * -1) - ((real_Width - (real_Width * scale)) / 2) + 40;
 
                 x.style.rotate = '0deg';
-                x.style.translate = `${new_left}px -1px`;
+                x.style.translate = `${new_left}px 0px`;
                 x.style.scale = `${scale}`;
             }, 1);
         }, 0);
@@ -241,7 +239,7 @@ const onLeave = (x: HTMLElement) => {
                     `"
                 >
                         <NuxtLink
-                            to="/item/x"
+                            :to="`/item/${val}`"
                             :class="{
                                 disabled: state.scrolling,
                             }"

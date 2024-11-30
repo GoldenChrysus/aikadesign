@@ -11,4 +11,8 @@
   opacity: 0;
   filter: blur(1rem);
 }
+
+* {
+    box-sizing: border-box;
+}
 </style>
