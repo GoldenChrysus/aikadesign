@@ -176,6 +176,16 @@ function getPosition(el) {
     return { top: _y, left: _x };
 }
 
+const solveForRealWidth = (rotated_width: number, rotated_height: number, rotation: number) => {
+    // https://stackoverflow.com/questions/18472668/how-do-i-find-the-dimensions-of-a-rotated-rectangle-within-an-unrotated-rectangl
+
+    const radians = Math.abs(rotation) * Math.PI / 180;
+    const sin = Math.sin(radians);
+    const cos = Math.cos(radians);
+
+    return ((rotated_width * cos) - (rotated_height * sin)) / (Math.pow(cos, 2) - Math.pow(sin, 2));
+}
+
 const onLeave = (x: HTMLElement) => {
     if (x.id !== state.focus) {
         x.style.opacity = '0';
@@ -192,12 +202,13 @@ const onLeave = (x: HTMLElement) => {
             x.classList.add('exiting');
 
             setTimeout(() => {
+                const real_Width = solveForRealWidth(rect.width, rect.height, +x.style.rotate.replace('deg', '').trim());
                 const max_width = 750;
-                const scale = (rect.width > max_width) ? max_width / rect.width : 1;
-                const new_left = (positions.left * -1) - ((rect.width - (rect.width * scale)) / 2) + 40;
+                const scale = (real_Width > max_width) ? max_width / real_Width : 1;
+                const new_left = (positions.left * -1) - ((real_Width - (real_Width * scale)) / 2) + 40;
 
                 x.style.rotate = '0deg';
-                x.style.translate = `${new_left}px 0`;
+                x.style.translate = `${new_left}px -1px`;
                 x.style.scale = `${scale}`;
             }, 1);
         }, 0);
