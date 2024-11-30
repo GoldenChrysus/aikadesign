@@ -26,15 +26,15 @@
     /* width: 700px; */
     /* min-width: 700px; */
     z-index: 2;
-    transition: opacity 2.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
+    transition: opacity 0.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
 }
 
 .wrapper > div > .item.bouncy {
-    transition: scale 0.5s ease, opacity 2.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
+    transition: scale 0.5s ease, opacity 0.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
 }
 
 .wrapper > div > .item.exiting {
-    transition: scale 2.0s ease-out, opacity 2.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
+    transition: scale 2.0s ease-out, opacity 0.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
 }
 
 .wrapper > div > .item > a {
@@ -86,6 +86,10 @@ import { reactive } from 'vue';
 
 const MAX_OFFSET = 200;
 const OVERLAP = 10;
+
+defineOptions({
+    inheritAttrs: false,
+});
 
 const router = useRouter();
 const state = reactive({
@@ -149,8 +153,7 @@ const scroll = (e: PointerEvent) => {
 const onMouseUp = () => {
     state.scrolling = false;
     state.mouse_down = false;
-}
-const emit = defineEmits(['navigate']);
+};
 const maybeNavigate = (item: string) => {
     if (item === state.focus && state.next_route) {
         router.push(state.next_route);
@@ -158,14 +161,14 @@ const maybeNavigate = (item: string) => {
         state.next_route = '';
         state.exited = true;
     }
-}
+};
 const navigate = (e: MouseEvent, route: string, item: string) => {
     e.preventDefault();
 
     state.exiting = true;
     state.next_route = route;
     state.focus = item;
-}
+};
 
 function getPosition(el) {
     var _x = 0;
@@ -209,7 +212,7 @@ const onLeave = (x: HTMLElement, done: () => void) => {
     }
 
     setTimeout(() => done(), 2000);
-}
+};
 </script>
 
 <template>
@@ -253,9 +256,11 @@ const onLeave = (x: HTMLElement, done: () => void) => {
                                     }"
                                     :aria-disabled="state.scrolling"
                                     @click.prevent="(e) => navigate(e, route, val)"
+                                    v-bind="$attrs"
                                 >
                                     <slot>
                                         <img
+                                            :key="`${val}-img`"
                                             :src="`/gallery/${val}`"
                                         >
                                     </slot>
