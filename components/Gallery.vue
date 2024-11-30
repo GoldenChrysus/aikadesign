@@ -33,7 +33,7 @@
     transition: scale 0.5s ease, opacity 0.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
 }
 
-.wrapper > div > .item.exiting {
+.page-leave-active > .wrapper > div > .item {
     transition: scale 2.0s ease-out, opacity 0.0s ease-out, translate 2.0s ease-out, rotate 2.0s ease-out;
 }
 
@@ -91,7 +91,6 @@ defineOptions({
     inheritAttrs: false,
 });
 
-const router = useRouter();
 const state = reactive({
     offset: MAX_OFFSET,
     previous_x: 0,
@@ -154,21 +153,15 @@ const onMouseUp = () => {
     state.scrolling = false;
     state.mouse_down = false;
 };
-const maybeNavigate = (item: string) => {
-    if (item === state.focus && state.next_route) {
-        router.push(state.next_route);
-
-        state.next_route = '';
-        state.exited = true;
-    }
-};
-const navigate = (e: MouseEvent, route: string, item: string) => {
-    e.preventDefault();
-
-    state.exiting = true;
-    state.next_route = route;
+const focus = (item: string) => {
     state.focus = item;
-};
+
+    const gallery = document.getElementById('gallery');
+
+    for (const element of gallery?.getElementsByClassName('item')) {
+        onLeave(element as HTMLElement);
+    }
+}
 
 function getPosition(el) {
     var _x = 0;
@@ -183,7 +176,7 @@ function getPosition(el) {
     return { top: _y, left: _x };
 }
 
-const onLeave = (x: HTMLElement, done: () => void) => {
+const onLeave = (x: HTMLElement) => {
     if (x.id !== state.focus) {
         x.style.opacity = '0';
     } else {
@@ -201,7 +194,6 @@ const onLeave = (x: HTMLElement, done: () => void) => {
             setTimeout(() => {
                 const max_width = 750;
                 const scale = (rect.width > max_width) ? max_width / rect.width : 1;
-                console.log(scale);
                 const new_left = (positions.left * -1) - ((rect.width - (rect.width * scale)) / 2) + 40;
 
                 x.style.rotate = '0deg';
@@ -210,64 +202,47 @@ const onLeave = (x: HTMLElement, done: () => void) => {
             }, 1);
         }, 0);
     }
-
-    setTimeout(() => done(), 2000);
 };
 </script>
 
 <template>
     <div class="page">
         <div
+            id="gallery"
             class="wrapper"
             @pointerdown.prevent="onMouseDown"
             @pointermove.prevent="scroll"
             @pointerup.prevent="onMouseUp"
         >
             <div v-for="(val, index) in items" v-if="!state.exited" :key="val">
-                <Transition
-                    name="focus"
-                    mode="out-in"
-                    @leave="onLeave"
-                    @after-leave="() => maybeNavigate(val)"
-                    :css="false"
+                <div
+                    :class="{
+                        item: true,
+                        focus: (val === state.focus),
+                        bouncy: !state.exiting,
+                        scrolling: state.scrolling,
+                    }"
+                    :id="val"
+                    :key="`${val}-${(state.exiting) ? '0' : '1'}`"
+                    :style="`
+                        rotate: ${getRotation(index)}deg;
+                        translate: ${getOffset(index)}px 0;
+                    `"
                 >
-                    <div
-                        :class="{
-                            item: true,
-                            bouncy: !state.exiting,
-                            scrolling: state.scrolling,
-                        }"
-                        :id="val"
-                        :key="`${val}-${(state.exiting) ? '0' : '1'}`"
-                        :style="`
-                            rotate: ${getRotation(index)}deg;
-                            translate: ${getOffset(index)}px 0;
-                        `"
-                    >
-                            <NuxtLink
-                                v-slot="{ route, href }"
-                                to="/item/x"
-                                custom
+                        <NuxtLink
+                            to="/item/x"
+                            :class="{
+                                disabled: state.scrolling,
+                            }"
+                            :aria-disabled="state.scrolling"
+                            @click.native="() => focus(val)"
+                        >
+                            <img
+                                :key="`${val}-img`"
+                                :src="`/gallery/${val}`"
                             >
-                                <a
-                                    :href="href"
-                                    :class="{
-                                        disabled: state.scrolling,
-                                    }"
-                                    :aria-disabled="state.scrolling"
-                                    @click.prevent="(e) => navigate(e, route, val)"
-                                    v-bind="$attrs"
-                                >
-                                    <slot>
-                                        <img
-                                            :key="`${val}-img`"
-                                            :src="`/gallery/${val}`"
-                                        >
-                                    </slot>
-                                </a>
-                            </NuxtLink>
-                    </div>
-                </Transition>
+                        </NuxtLink>
+                </div>
             </div>
         </div>
     </div>
