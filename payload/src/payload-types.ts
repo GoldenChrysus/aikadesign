@@ -102,6 +102,7 @@ export interface Portfolio {
   id: number;
   name: string;
   entry: {
+    title: string;
     info: {
       root: {
         type: string;
@@ -225,6 +226,7 @@ export interface PortfoliosSelect<T extends boolean = true> {
   entry?:
     | T
     | {
+        title?: T;
         info?: T;
         image?: T;
         id?: T;

@@ -48,6 +48,15 @@ export const Portfolios: CollectionConfig = {
       required: true,
       fields: [
         {
+          name: 'title',
+          label: {
+            en: 'Title',
+            ja: 'タイトル'
+          },
+          type: 'text',
+          required: true,
+        },
+        {
           name: 'info',
           label: {
             en: 'Info',
