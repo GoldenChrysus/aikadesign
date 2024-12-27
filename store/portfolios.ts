@@ -1,6 +1,6 @@
 import { observable, runInAction } from 'mobx';
 
-type Portfolio = {
+export type Portfolio = {
     id: number,
     name: string,
     entry: {

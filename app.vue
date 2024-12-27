@@ -1,5 +1,14 @@
+<script setup lang="ts">
+import { NConfigProvider } from 'naive-ui';
+
+</script>
+
 <template>
-    <NuxtPage />
+  <NConfigProvider inline-theme-disabled>
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
+  </NConfigProvider>
 </template>
 
 <style>

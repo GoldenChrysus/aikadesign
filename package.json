@@ -13,7 +13,11 @@
     "mobx": "^6.13.5",
     "mobx-vue-lite": "^0.4.3",
     "nuxt": "^3.13.0",
+    "nuxtjs-naive-ui": "^1.0.2",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "naive-ui": "^2.40.4"
   }
 }
