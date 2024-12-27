@@ -1,3 +1,4 @@
+import { lexicalEditor, HTMLConverterFeature, lexicalHTML } from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 
 export const Portfolios: CollectionConfig = {
@@ -63,6 +64,12 @@ export const Portfolios: CollectionConfig = {
             ja: '情報'
           },
           type: 'richText',
+          editor: lexicalEditor({
+            features: ({ defaultFeatures }) => [
+              ...defaultFeatures,
+              HTMLConverterFeature({}),
+            ],
+          }),
           required: true,
         },
         {
@@ -75,6 +82,7 @@ export const Portfolios: CollectionConfig = {
           required: true,
           relationTo: 'media',
         },
+        lexicalHTML('info', { name: 'info_html' }),
       ],
     }
   ],

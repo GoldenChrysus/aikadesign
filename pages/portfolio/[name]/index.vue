@@ -20,5 +20,5 @@ if (Array.isArray(name) || !(name in PORTFOLIO_MAP)) {
 const id = PORTFOLIO_MAP[name];
 </script>
 <template>
-    <Gallery :id="id" />
+    <Gallery :name="name" :id="id" />
 </template>

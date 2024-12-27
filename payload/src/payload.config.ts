@@ -42,7 +42,9 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
-  cors: {
-    origins: ['http://localhost:3000'],
-  },
+  cors: (process.env.NODE_ENV === 'development')
+    ? '*'
+    : {
+      origins: ['http://localhost:3000'],
+    },
 })

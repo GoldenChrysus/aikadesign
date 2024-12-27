@@ -119,6 +119,7 @@ export interface Portfolio {
       [k: string]: unknown;
     };
     image: number | Media;
+    info_html?: string | null;
     id?: string | null;
   }[];
   updatedAt: string;
@@ -229,6 +230,7 @@ export interface PortfoliosSelect<T extends boolean = true> {
         title?: T;
         info?: T;
         image?: T;
+        info_html?: T;
         id?: T;
       };
   updatedAt?: T;

@@ -39,15 +39,41 @@
     display: flex;
     align-items: center;
     height: 80vh;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .wrapper > div > .item > a > img {
-    max-height: 100%;
+    max-height: 90%;
     max-width: 1200px;
+}
+
+.wrapper > div > .item > a > p {
+    position: absolute;
+    color: black;
+    bottom: 0;
 }
 
 .wrapper > div > .item.scrolling {
     scale: 0.97;
+}
+
+.wrapper > div > .item.exiting > a > p {
+    transition: all;
+    animation: 0.5s title forwards;
+}
+
+@keyframes title {
+    from {
+        opacity: 1;
+        filter: none;
+    }
+
+    to {
+        opacity: 0;
+        filter: blur(1rem);
+    }
 }
 
 .focus-enter-active,
@@ -83,6 +109,12 @@
 import { reactive } from 'vue';
 import { getPortfolio } from '~/store/portfolios';
 
+type PortfolioItem = {
+    id: string,
+    src: string,
+    title: string,
+}
+
 const MAX_OFFSET = 200;
 const OVERLAP = 10;
 
@@ -95,8 +127,12 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    name: {
+        type: String,
+        required: true,
+    },
 });
-const { id } = props;
+const { id, name } = props;
 
 const state = reactive({
     offset: MAX_OFFSET,
@@ -108,23 +144,14 @@ const state = reactive({
     next_route: '',
     focus: '',
 });
-const items = ref([
-    'organic-soap.png',
-    'gym.png',
-    'organic-skincare-mockup.jpg',
-    'furusato-nouzei.jpg',
-    'coffee-beans-menu.png',
-    'rice-bag-mockup.jpg',
-    'hifu-beauty-clinic.png',
-    'cafe-halloween-event.gif',
-    'tekondo-banner-1.png',
-    'tekondo-banner-2.png',
-    'gym-2.png',
-]);
+const items = ref<PortfolioItem[]>([]);
 
 getPortfolio(id).then((x) => {
-    console.log('PORTFOLIO', x)
-    items.value = x.entry.map((y) => `https://cms.uadesign.tokyo/api/${y.image.url}`);
+    items.value = x.entry.map((y) => ({
+        id: y.id,
+        src: `https://cms.uadesign.tokyo/${y.image.url}`,
+        title: y.title,
+    }));
 });
 
 const getRotation = (index: number) => {
@@ -205,13 +232,13 @@ const onLeave = (x: HTMLElement) => {
         const rect = x.getBoundingClientRect();
 
         setTimeout(() => {
+            x.classList.add('exiting');
+
             const positions = getPosition(x);
             x.style.position = 'fixed';
             x.style.top = `${positions.top}px`;
             x.style.left = `${positions.left}px`;
             x.style.translate = '0px 0px';
-
-            x.classList.add('exiting');
 
             setTimeout(() => {
                 const real_Width = solveForRealWidth(rect.width, rect.height, +x.style.rotate.replace('deg', '').trim());
@@ -237,15 +264,15 @@ const onLeave = (x: HTMLElement) => {
             @pointermove.prevent="scroll"
             @pointerup.prevent="onMouseUp"
         >
-            <div v-for="(val, index) in items" v-if="!state.exited" :key="val">
+            <div v-for="(val, index) in items" v-if="!state.exited" :key="val.id">
                 <div
                     :class="{
                         item: true,
-                        focus: (val === state.focus),
+                        focus: (val.id === state.focus),
                         bouncy: !state.exiting,
                         scrolling: state.scrolling,
                     }"
-                    :id="val"
+                    :id="val.id"
                     :key="`${val}-${(state.exiting) ? '0' : '1'}`"
                     :style="`
                         rotate: ${getRotation(index)}deg;
@@ -253,17 +280,18 @@ const onLeave = (x: HTMLElement) => {
                     `"
                 >
                         <NuxtLink
-                            :to="`/item/${val}`"
+                            :to="`/portfolio/${name}/${val.id}`"
                             :class="{
                                 disabled: state.scrolling,
                             }"
                             :aria-disabled="state.scrolling"
-                            @click.native="() => focus(val)"
+                            @click.native="() => focus(val.id)"
                         >
                             <img
                                 :key="`${val}-img`"
-                                :src="`/gallery/${val}`"
+                                :src="val.src"
                             >
+                            <p>{{ val.title }}</p>
                         </NuxtLink>
                 </div>
             </div>
