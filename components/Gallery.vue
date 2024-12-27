@@ -61,10 +61,15 @@
 
 .wrapper > div > .item.exiting > a > p {
     transition: all;
-    animation: 0.5s title forwards;
+    animation: 0.5s exit forwards;
 }
 
-@keyframes title {
+.mobile-exit {
+    transition: all;
+    animation: 2s exit forwards;
+}
+
+@keyframes exit {
     from {
         opacity: 1;
         filter: none;
@@ -117,6 +122,7 @@ type PortfolioItem = {
 
 const MAX_OFFSET = 200;
 const OVERLAP = 10;
+const { isMobile } = useDevice();
 
 defineOptions({
     inheritAttrs: false,
@@ -175,7 +181,7 @@ const scroll = (e: PointerEvent) => {
     }
 
     const x = e.screenX;
-    const delta = (state.previous_x - x) * 1.75;
+    const delta = (state.previous_x - x) * ((isMobile) ? 50 : 1.75);
 
     if (delta !== 0) {
         state.scrolling = true;
@@ -197,19 +203,24 @@ const focus = (item: string) => {
 
     const gallery = document.getElementById('gallery');
 
-    for (const element of gallery?.getElementsByClassName('item')) {
+    if (isMobile) {
+        gallery?.classList.add('mobile-exit');
+        return;
+    }
+
+    for (const element of gallery?.getElementsByClassName?.('item') ?? []) {
         onLeave(element as HTMLElement);
     }
 }
 
-function getPosition(el) {
+function getPosition(el: HTMLElement) {
     var _x = 0;
     var _y = 0;
 
     while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
         _x += el.offsetLeft - el.scrollLeft;
         _y += el.offsetTop - el.scrollTop;
-        el = el.offsetParent;
+        el = el.offsetParent as HTMLElement;
     }
 
     return { top: _y, left: _x };
@@ -263,6 +274,7 @@ const onLeave = (x: HTMLElement) => {
             @pointerdown.prevent="onMouseDown"
             @pointermove.prevent="scroll"
             @pointerup.prevent="onMouseUp"
+            @touchend.native="onMouseUp"
         >
             <div v-for="(val, index) in items" v-if="!state.exited" :key="val.id">
                 <div
@@ -284,11 +296,11 @@ const onLeave = (x: HTMLElement) => {
                             :class="{
                                 disabled: state.scrolling,
                             }"
-                            :aria-disabled="state.scrolling"
+                            :aria-disabled="false"
                             @click.native="() => focus(val.id)"
                         >
                             <img
-                                :key="`${val}-img`"
+                                :key="`${val.id}-img`"
                                 :src="val.src"
                             >
                             <p>{{ val.title }}</p>

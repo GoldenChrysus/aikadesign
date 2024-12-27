@@ -11,5 +11,5 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['nuxtjs-naive-ui'],
+  modules: ['nuxtjs-naive-ui', '@nuxtjs/device'],
 })

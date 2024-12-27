@@ -10,3 +10,7 @@ cms.uadesign.tokyo {
         header_down -Access-Control-Allow-Origin
     }
 }
+
+uadesign.tokyo {
+    reverse_proxy app:3000
+}

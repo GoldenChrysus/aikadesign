@@ -13,6 +13,11 @@ services:
       context: ./payload
       target: runner
 
+  app:
+    build:
+      context: .
+      target: runner
+
 volumes:
     caddy_data:
     caddy_config:
