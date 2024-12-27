@@ -55,6 +55,26 @@ const menuOptions: MenuOption[] = [
         ),
         key: 'portfolio/banner',
       },
+      {
+        label: () => h(
+          'a',
+          {
+            href: '/portfolio/graphic',
+          },
+          'グラフィック',
+        ),
+        key: 'portfolio/graphic',
+      },
+      {
+        label: () => h(
+          'a',
+          {
+            href: '/portfolio/home-page',
+          },
+          'ホームページ',
+        ),
+        key: 'portfolio/home-page',
+      },
     ],
     key: 'portfolio',
   },

@@ -258,7 +258,7 @@ const onLeave = (x: HTMLElement) => {
 
             const positions = getPosition(x);
             x.style.position = 'fixed';
-            x.style.top = `${positions.top}px`;
+            x.style.top = `${positions.top + 1}px`;
             x.style.left = `${positions.left}px`;
             x.style.translate = '0px 0px';
 

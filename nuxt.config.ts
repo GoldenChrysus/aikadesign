@@ -11,5 +11,9 @@ export default defineNuxtConfig({
     },
   },
 
+  build: {
+    transpile: ['vueuc'],
+  },
+
   modules: ['nuxtjs-naive-ui', '@nuxtjs/device'],
 })
