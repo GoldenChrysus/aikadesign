@@ -9,11 +9,13 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
 
   payload:
+    image: ghcr.io/goldenchrysus/aikadesign-payload
     build:
       context: ./payload
       target: runner
 
   app:
+    image: ghcr.io/goldenchrysus/aikadesign-app
     build:
       context: .
       target: runner
