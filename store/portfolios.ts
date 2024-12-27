@@ -23,7 +23,7 @@ export const getPortfolio = async (id: number) => {
         return portfolios[id];
     }
 
-    const data = await fetch(`http://localhost:3002/api/portfolios/${id}`);
+    const data = await fetch(`https://cms.uadesign.tokyo/api/portfolios/${id}`);
     const portfolio: Portfolio = await data.json();
 
     runInAction(() => {

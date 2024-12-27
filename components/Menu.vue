@@ -6,7 +6,7 @@
 
 
 <script lang="ts" setup>
-import { NSplit, NMenu, type MenuOption, NFlex, NGrid, NGi } from 'naive-ui';
+import { NMenu, type MenuOption, NFlex } from 'naive-ui';
 import { h } from 'vue';
 
 const menuOptions: MenuOption[] = [
@@ -34,6 +34,7 @@ const menuOptions: MenuOption[] = [
         key: 'portfolio/banner',
       },
     ],
+    key: 'portfolio',
   },
   {
     label: () => h(
@@ -54,12 +55,14 @@ const menuOptions: MenuOption[] = [
       <div>
         Logo.
       </div>
+      <ClientOnly>
         <NMenu
           mode="horizontal"
           :options="menuOptions"
           responsive
           class="menu"
         />
+      </ClientOnly>
     </NFlex>
   </div>
 </template>
