@@ -1,12 +1,34 @@
 <style>
 .menu {
-  width: auto !important;
+    width: auto !important;
+}
+
+.logo {
+    width: 80px;
+}
+
+.mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+    }
+
+    .logo {
+      width: 50px;
+    }
 }
 </style>
 
 
 <script lang="ts" setup>
-import { NMenu, type MenuOption, NFlex } from 'naive-ui';
+import { NMenu, type MenuOption, NFlex, NGrid, NGi } from 'naive-ui';
 import { h } from 'vue';
 
 const menuOptions: MenuOption[] = [
@@ -51,18 +73,48 @@ const menuOptions: MenuOption[] = [
 
 <template>
   <div style="padding: 1rem;">
-    <NFlex :cols="2" justify="space-between" align="center">
-      <div>
-        Logo.
-      </div>
-      <ClientOnly>
-        <NMenu
-          mode="horizontal"
-          :options="menuOptions"
-          responsive
-          class="menu"
-        />
-      </ClientOnly>
-    </NFlex>
+    <div class="desktop">
+      <NGrid :cols="3">
+        <NGi></NGi>
+        <NGi style="text-align: center;">
+          <a href="/">
+            <img
+              src="/ua-design.png"
+              class="logo"
+            >
+          </a>
+        </NGi>
+        <NGi>
+          <NFlex justify="end">
+            <ClientOnly>
+              <NMenu
+                mode="horizontal"
+                :options="menuOptions"
+                responsive
+                class="menu"
+              />
+            </ClientOnly>
+          </NFlex>
+        </NGi>
+      </NGrid>
+    </div>
+    <div class="mobile">
+      <NFlex justify="space-between" align="center">
+          <div>
+            <img
+              src="/ua-design.png"
+              class="logo"
+            >
+          </div>
+          <ClientOnly>
+            <NMenu
+              mode="horizontal"
+              :options="menuOptions"
+              responsive
+              class="menu"
+            />
+          </ClientOnly>
+        </NFlex>
+    </div>
   </div>
 </template>

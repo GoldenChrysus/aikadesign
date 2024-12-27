@@ -4,7 +4,7 @@
 }
 
 .page {
-    height: 100svh;
+    height: calc(100svh - 78px);
     width: 100%;
     z-index: 1;
     overflow: hidden;
@@ -53,6 +53,17 @@
     position: absolute;
     color: black;
     bottom: 0;
+}
+
+@media only screen and (max-width: 700px) {
+    .wrapper > div > .item > a > img {
+        max-height: 80%;
+    }
+
+    .wrapper > div > .item > a > p {
+        top: 12px;
+        bottom: auto;
+    }
 }
 
 .wrapper > div > .item.scrolling {
@@ -299,11 +310,11 @@ const onLeave = (x: HTMLElement) => {
                             :aria-disabled="false"
                             @click.native="() => focus(val.id)"
                         >
+                            <p>{{ val.title }}</p>
                             <img
                                 :key="`${val.id}-img`"
                                 :src="val.src"
                             >
-                            <p>{{ val.title }}</p>
                         </NuxtLink>
                 </div>
             </div>
