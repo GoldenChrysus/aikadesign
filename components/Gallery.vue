@@ -81,6 +81,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { getPortfolio } from '~/store/portfolios';
 
 const MAX_OFFSET = 200;
 const OVERLAP = 10;
@@ -88,6 +89,14 @@ const OVERLAP = 10;
 defineOptions({
     inheritAttrs: false,
 });
+
+const props = defineProps({
+    id: {
+        type: Number,
+        required: true,
+    },
+});
+const { id } = props;
 
 const state = reactive({
     offset: MAX_OFFSET,
@@ -112,6 +121,11 @@ const items = ref([
     'tekondo-banner-2.png',
     'gym-2.png',
 ]);
+
+getPortfolio(id).then((x) => {
+    console.log('PORTFOLIO', x)
+    items.value = x.entry.map((y) => `https://cms.uadesign.tokyo/api/${y.image.url}`);
+});
 
 const getRotation = (index: number) => {
     const basis = 0.6;
