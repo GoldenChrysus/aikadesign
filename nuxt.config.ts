@@ -9,6 +9,9 @@ export default defineNuxtConfig({
       name: 'page',
       mode: 'in-out',
     },
+    head: {
+      title: 'UAdesign',
+    }
   },
 
   build: {

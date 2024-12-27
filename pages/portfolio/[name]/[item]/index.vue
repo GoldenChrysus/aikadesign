@@ -1,11 +1,11 @@
 <style>
 .container {
-    position: fixed;
     display: grid;
     height: calc(100% - 78px);
     /* min-height: 100vh; */
     width: 100%;
     padding: 40px;
+    margin-top: 46px;
     box-sizing: border-box;
     align-items: center;
     grid-template-columns: repeat(2, 1fr);
@@ -31,6 +31,7 @@
     .container {
         align-items: start;
         grid-template-rows: auto 1fr;
+        margin-top: 0;
     }
 
     .inner {
