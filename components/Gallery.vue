@@ -71,6 +71,14 @@
         top: 12px;
         bottom: auto;
     }
+
+    .wrapper > div > .item {
+        transition: all 0.5s !important;
+    }
+
+    .page-leave-active {
+        transition: all 0.5s;
+    }
 }
 
 .wrapper > div > .item.scrolling {
@@ -129,7 +137,6 @@
 </style>
 
 <script setup lang="ts">
-import { NBreadcrumb } from 'naive-ui';
 import { reactive } from 'vue';
 import { getPortfolio } from '~/store/portfolios';
 

@@ -3,6 +3,10 @@ body {
     margin: 0;
 }
 
+.page-enter-active {
+    transition: all 0.5s;
+}
+
 .page-enter-from {
     opacity: 0;
     filter: blur(1rem);
