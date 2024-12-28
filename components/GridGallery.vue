@@ -1,7 +1,6 @@
 <style>
 .column {
     aspect-ratio: 1;
-    background-color: red;
     position: relative;
 }
 
@@ -43,7 +42,7 @@ fetch('https://cms.uadesign.tokyo/api/portfolios').then(async (data) => {
         x.entry.forEach((y) => {
             items.value.push({
                 id: y.id,
-                src: `https://cms.uadesign.tokyo/${y.image.url}`,
+                src: `https://uadesign.tokyo/gallery${y.image.url}`,
                 portfolio: JA_PORTFOLIO_MAP[x.name],
             });
         });
@@ -54,7 +53,9 @@ fetch('https://cms.uadesign.tokyo/api/portfolios').then(async (data) => {
 <template>
     <NGrid cols="2 700:4" :x-gap="20" :y-gap="20">
         <NGi v-for="item in items" :key="item.id" class="column">
-            <NuxtLink :to="`/portfolio/${item.portfolio}/${item.id}`"><img :src="item.src" /></NuxtLink>
+            <NuxtLink :to="`/portfolio/${item.portfolio}/${item.id}`">
+                <NuxtImg :src="item.src" placeholder />
+            </NuxtLink>
         </NGi>
     </NGrid>
 </template>

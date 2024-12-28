@@ -1,3 +1,20 @@
+{
+    debug
+
+    log {
+        output stdout
+    }
+
+    local_certs
+
+    on_demand_tls {
+        ask http://localhost:1338/api/v1/tls
+
+        burst 5
+        interval 2m
+    }
+}
+
 cms.uadesign.tokyo {
     header {
         Access-Control-Allow-Origin *
@@ -6,11 +23,26 @@ cms.uadesign.tokyo {
         Access-Control-Allow-Headers *
         defer
     }
+
     reverse_proxy payload:3000 {
         header_down -Access-Control-Allow-Origin
     }
 }
 
 uadesign.tokyo {
+    handle /gallery/* {
+        uri strip_prefix /gallery
+        reverse_proxy payload:3000
+    }
+
+    reverse_proxy app:3000
+}
+
+:80 {
+    handle /gallery/* {
+        uri strip_prefix /gallery
+        reverse_proxy payload:3000
+    }
+
     reverse_proxy app:3000
 }

@@ -18,5 +18,10 @@ export default defineNuxtConfig({
     transpile: ['vueuc'],
   },
 
-  modules: ['nuxtjs-naive-ui', '@nuxtjs/device'],
+  modules: ['nuxtjs-naive-ui', '@nuxtjs/device', '@nuxt/image'],
+
+  image: {
+    provider: 'ipx',
+    domains: ['cms.uadesign.tokyo', 'uadesign.tokyo', 'payload'],
+  },
 })

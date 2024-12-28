@@ -10,12 +10,14 @@ services:
 
   payload:
     image: ghcr.io/goldenchrysus/aikadesign-payload
+    restart: unless-stopped
     build:
       context: ./payload
       target: runner
 
   app:
     image: ghcr.io/goldenchrysus/aikadesign-app
+    restart: unless-stopped
     build:
       context: .
       target: runner

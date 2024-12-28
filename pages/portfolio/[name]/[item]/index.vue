@@ -164,7 +164,7 @@ getPortfolio(id).then((x) => {
         });
     }
 
-    state.src = `https://cms.uadesign.tokyo/${entry.image.url}`;
+    state.src = `https://cms.uadesign.tokyo${entry.image.url}`;
     state.info = entry.info_html;
     state.title = entry.title;
 });
@@ -178,7 +178,7 @@ getPortfolio(id).then((x) => {
             <NBreadcrumbItem>{{ state.title }}</NBreadcrumbItem>
         </NBreadcrumb>
         <div class="inner">
-            <img :key="state.src" :src="state.src">
+            <img :key="state.src" :src="state.src" />
         </div>
         <div class="info" v-html="state.info"></div>
     </div>

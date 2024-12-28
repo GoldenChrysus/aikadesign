@@ -107,7 +107,7 @@ const menuOptions: MenuOption[] = [
             <img
               src="/ua-design.png"
               class="logo"
-            >
+            />
           </NuxtLink>
         </NGi>
         <NGi>
@@ -131,7 +131,7 @@ const menuOptions: MenuOption[] = [
               <img
                 src="/ua-design.png"
                 class="logo"
-              >
+              />
             </NuxtLink>
           </div>
           <ClientOnly>

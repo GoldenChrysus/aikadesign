@@ -183,7 +183,7 @@ getPortfolio(id).then((x) => {
     state.title = x.name;
     items.value = x.entry.map((y) => ({
         id: y.id,
-        src: `https://cms.uadesign.tokyo/${y.image.url}`,
+        src: `https://cms.uadesign.tokyo${y.image.url}`,
         title: y.title,
     }));
 });
@@ -336,7 +336,7 @@ const onLeave = (x: HTMLElement) => {
                             <img
                                 :key="`${val.id}-img`"
                                 :src="val.src"
-                            >
+                            />
                         </NuxtLink>
                 </div>
             </div>
