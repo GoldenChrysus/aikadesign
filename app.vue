@@ -35,6 +35,13 @@ import { NConfigProvider } from 'naive-ui';
     box-sizing: border-box;
 }
 
+@media only screen and (max-width: 700px) {
+    .page-enter-active,
+    .page-leave-active {
+        transition: all 0.5s;
+    }
+}
+
 @keyframes from-gallery {
     from {
         opacity: 0;

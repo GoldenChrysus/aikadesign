@@ -92,7 +92,7 @@
 
 .mobile-exit {
     transition: all;
-    animation: 2s exit forwards;
+    animation: 0.5s exit forwards;
 }
 
 @keyframes exit {
