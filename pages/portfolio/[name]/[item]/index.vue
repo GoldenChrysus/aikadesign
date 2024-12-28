@@ -11,7 +11,7 @@
 }
 
 .inner {
-    height: 80vh;
+    height: calc(80vh - 40px);
     display: flex;
     align-items: center;
     grid-column: 1 / span 1;

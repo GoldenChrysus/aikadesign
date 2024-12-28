@@ -287,7 +287,7 @@ const onLeave = (x: HTMLElement) => {
                 const max_width = 750;
                 const scale = (real_Width > max_width) ? max_width / real_Width : 1;
                 const new_left = (positions.left * -1) - ((real_Width - (real_Width * scale)) / 2) + 40 - padding_difference;
-                const new_top = 0 - (portfolio_title_height / 2) - (breadcrumb_height / 2) - padding_difference;
+                const new_top = 0 - (portfolio_title_height / 2) - (breadcrumb_height / 2) - 18 - padding_difference;
 
                 x.style.rotate = '0deg';
                 x.style.translate = `${new_left}px ${new_top}px`;
