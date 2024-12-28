@@ -54,7 +54,7 @@ fetch('https://cms.uadesign.tokyo/api/portfolios').then(async (data) => {
 <template>
     <NGrid cols="2 700:4" :x-gap="20" :y-gap="20">
         <NGi v-for="item in items" :key="item.id" class="column">
-            <a :href="`/portfolio/${item.portfolio}/${item.id}`"><img :src="item.src" /></a>
+            <NuxtLink :to="`/portfolio/${item.portfolio}/${item.id}`"><img :src="item.src" /></NuxtLink>
         </NGi>
     </NGrid>
 </template>

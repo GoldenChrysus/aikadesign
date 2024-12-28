@@ -4,7 +4,7 @@
 }
 
 .page {
-    height: calc(100svh - 78px);
+    height: calc(100svh - 78px - 40px);
     width: 100%;
     z-index: 1;
     overflow: hidden;
@@ -38,7 +38,7 @@
 .wrapper > div > .item > a {
     display: flex;
     align-items: center;
-    height: 80vh;
+    height: calc(80vh - 40px);
     flex-direction: column;
     justify-content: center;
     text-decoration: none;
@@ -53,6 +53,13 @@
     position: absolute;
     color: black;
     bottom: 0;
+}
+
+.title {
+    height: 40px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 @media only screen and (max-width: 700px) {
@@ -122,6 +129,7 @@
 </style>
 
 <script setup lang="ts">
+import { NBreadcrumb } from 'naive-ui';
 import { reactive } from 'vue';
 import { getPortfolio } from '~/store/portfolios';
 
@@ -160,10 +168,12 @@ const state = reactive({
     exited: false,
     next_route: '',
     focus: '',
+    title: '',
 });
 const items = ref<PortfolioItem[]>([]);
 
 getPortfolio(id).then((x) => {
+    state.title = x.name;
     items.value = x.entry.map((y) => ({
         id: y.id,
         src: `https://cms.uadesign.tokyo/${y.image.url}`,
@@ -257,8 +267,11 @@ const onLeave = (x: HTMLElement) => {
             x.classList.add('exiting');
 
             const positions = getPosition(x);
+            const portfolio_title_height = 40;
+            const breadcrumb_height = 30;
+            const padding_difference = 24;
             x.style.position = 'fixed';
-            x.style.top = `${positions.top + 1}px`;
+            x.style.top = `${positions.top}px`;
             x.style.left = `${positions.left}px`;
             x.style.translate = '0px 0px';
 
@@ -266,10 +279,11 @@ const onLeave = (x: HTMLElement) => {
                 const real_Width = solveForRealWidth(rect.width, rect.height, +x.style.rotate.replace('deg', '').trim());
                 const max_width = 750;
                 const scale = (real_Width > max_width) ? max_width / real_Width : 1;
-                const new_left = (positions.left * -1) - ((real_Width - (real_Width * scale)) / 2) + 40;
+                const new_left = (positions.left * -1) - ((real_Width - (real_Width * scale)) / 2) + 40 - padding_difference;
+                const new_top = 0 - (portfolio_title_height / 2) - (breadcrumb_height / 2) - padding_difference;
 
                 x.style.rotate = '0deg';
-                x.style.translate = `${new_left}px 0px`;
+                x.style.translate = `${new_left}px ${new_top}px`;
                 x.style.scale = `${scale}`;
             }, 1);
         }, 0);
@@ -279,6 +293,7 @@ const onLeave = (x: HTMLElement) => {
 
 <template>
     <div class="page">
+        <h3 class="title">{{ state.title }}</h3>
         <div
             id="gallery"
             class="wrapper"

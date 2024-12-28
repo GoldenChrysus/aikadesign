@@ -2,6 +2,11 @@
 body {
     margin: 0;
 }
+
+.page-enter-from {
+    opacity: 0;
+    filter: blur(1rem);
+}
 </style>
 
 <script setup lang="ts">

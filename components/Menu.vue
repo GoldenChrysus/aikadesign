@@ -3,6 +3,12 @@
     width: auto !important;
 }
 
+.menu .n-menu-item-content {
+    text-align: right;
+    padding-right: 0 !important;
+    padding-left: 40px !important;
+}
+
 .logo {
     width: 80px;
 }
@@ -34,9 +40,9 @@ import { h } from 'vue';
 const menuOptions: MenuOption[] = [
   {
     label: () => h(
-      'a',
+      resolveComponent('nuxt-link'),
       {
-        href: '/',
+        to: '/',
       },
       'ホーム',
     ),
@@ -47,9 +53,9 @@ const menuOptions: MenuOption[] = [
     children: [
       {
         label: () => h(
-          'a',
+          resolveComponent('nuxt-link'),
           {
-            href: '/portfolio/banner',
+            to: '/portfolio/banner',
           },
           'バナー',
         ),
@@ -57,9 +63,9 @@ const menuOptions: MenuOption[] = [
       },
       {
         label: () => h(
-          'a',
+          resolveComponent('nuxt-link'),
           {
-            href: '/portfolio/graphic',
+            to: '/portfolio/graphic',
           },
           'グラフィック',
         ),
@@ -67,9 +73,9 @@ const menuOptions: MenuOption[] = [
       },
       {
         label: () => h(
-          'a',
+          resolveComponent('nuxt-link'),
           {
-            href: '/portfolio/home-page',
+            to: '/portfolio/home-page',
           },
           'ホームページ',
         ),
@@ -80,9 +86,9 @@ const menuOptions: MenuOption[] = [
   },
   {
     label: () => h(
-      'a',
+      resolveComponent('nuxt-link'),
       {
-        href: 'mailto:aika@uadesign.tokyo',
+        to: 'mailto:aika@uadesign.tokyo',
       },
       'ご連絡',
     ),
@@ -97,12 +103,12 @@ const menuOptions: MenuOption[] = [
       <NGrid :cols="3">
         <NGi></NGi>
         <NGi style="text-align: center;">
-          <a href="/">
+          <NuxtLink to="/">
             <img
               src="/ua-design.png"
               class="logo"
             >
-          </a>
+          </NuxtLink>
         </NGi>
         <NGi>
           <NFlex justify="end">
@@ -121,10 +127,12 @@ const menuOptions: MenuOption[] = [
     <div class="mobile">
       <NFlex justify="space-between" align="center">
           <div>
-            <img
-              src="/ua-design.png"
-              class="logo"
-            >
+            <NuxtLink to="/">
+              <img
+                src="/ua-design.png"
+                class="logo"
+              >
+            </NuxtLink>
           </div>
           <ClientOnly>
             <NMenu
