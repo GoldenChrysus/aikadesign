@@ -209,7 +209,7 @@ const scroll = (e: PointerEvent) => {
     }
 
     const x = e.screenX;
-    const delta = (state.previous_x - x) * ((isMobile) ? 50 : 1.75);
+    const delta = (state.previous_x - x) * ((isMobile) ? 20 : 1.75);
 
     if (delta !== 0) {
         state.scrolling = true;
